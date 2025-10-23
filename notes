@@ -1,0 +1,8 @@
+
+
+Business Logic (Atomic Updates):
+
+Update courses.enrolled_count: When an enrollment is created or deleted, update the enrolled_count field in the courses model atomically to avoid race conditions. Use Django’s F() expressions in a signal (e.g., post_save or post_delete on enrollments) to increment/decrement enrolled_count.
+Signal Setup: Plan a post_save signal to increment enrolled_count when status='active' and a post_delete signal to decrement it. Ensure changes are wrapped in a transaction (django.db.transaction.atomic) for consistency.
+Status Transitions: When status changes (e.g., from active to dropped), adjust enrolled_count accordingly. Handle this in a signal or custom model method to keep logic centralized.
+
