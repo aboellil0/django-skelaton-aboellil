@@ -18,10 +18,10 @@ class Enrollment(models.Model):
     """make PROTECT to don't risks losing critical data (payment or attendance records linked to enrollments)
        مؤقتا لحد ما نعرف cascade or null
     """
-    course = models.ForeignKey('courses.Course', on_delete=models.PROTECT) 
-    student = models.ForeignKey('student_users.StudentUser', null=True, blank=True, on_delete=models.PROTECT) 
-    child = models.ForeignKey('children.Child', null=True, blank=True, on_delete=models.PROTECT) 
-    created_by = models.ForeignKey('users.User', on_delete=models.PROTECT) # connected to admin who approved the enrollment
+    course = models.ForeignKey('courses.Course', on_delete=models.PROTECT, related_name='enrollments') 
+    student = models.ForeignKey('student_users.StudentUser', null=True, blank=True, on_delete=models.PROTECT, related_name='enrollments') 
+    child = models.ForeignKey('children.Child', null=True, blank=True, on_delete=models.PROTECT, related_name='enrollments') 
+    created_by = models.ForeignKey('users.User', on_delete=models.PROTECT, related_name='created_enrollments') # connected to admin who approved the enrollment
 
     enrolled_at = models.DateTimeField() # date time when he wanted to enroll from pending enrollment to active enrollment
     active = models.BooleanField(default=True) # default active because when admin approves the pending enrollment it becomes active
